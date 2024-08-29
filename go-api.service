@@ -6,7 +6,7 @@ After=network.target
 User=ubuntu
 Group=sudo
 WorkingDirectory=/home/ubuntu/code
-ExecStart=./main
+ExecStart=/home/ubuntu/code/main
 Restart=always
 
 [Install]

@@ -36,4 +36,6 @@ jobs:
         run: sudo cp go-api.service /etc/systemd/system
 
       - name: Restart systemd service
-        run: sudo /bin/systemctl restart go-api || sudo /bin/systemctl start go-api
+        run: |
+          sudo systemctl daemon-reload
+          sudo systemctl restart go-api || sudo systemctl start go-api
