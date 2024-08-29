@@ -2,16 +2,16 @@
 
 name: Deploy Golang API
 
-directory: /home/user/code/
+directory: /home/ubuntu/code/
 jobs:
   - name: build
     steps:
       - name: Checkout code
-        directory: /home/user/
+        directory: /home/ubuntu/
         run: |
-          rm -rf /home/user/code/
-          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO} --branch ${GITHUB_REF} --single-branch /home/user/_temp_code
-          mv /home/user/_temp_code/ /home/user/code/
+          rm -rf /home/ubuntu/code/
+          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO} --branch ${GITHUB_REF} --single-branch /home/ubuntu/_temp_code
+          mv /home/ubuntu/_temp_code/ /home/ubuntu/code/
 
       - name: Install dependencies
         run: go mod tidy
