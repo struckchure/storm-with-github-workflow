@@ -1,0 +1,39 @@
+name: "[Storm] Deploy Golang API"
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  storm:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install storm
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/Overal-X/formatio.storm/main/scripts/install.sh | bash
+          echo "~/.storm/bin" >> $GITHUB_PATH
+
+      - name: Show storm version
+        run: storm version
+
+      - name: Sub env variables to config files
+        run: |
+          export SSH_KEY=${{ secrets.SSH_KEY }}
+          echo ${SSH_KEY} > "./id_rsa"
+
+          export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          export GITHUB_REPO=${{ github.repository }}
+          export GITHUB_REF=${{ github.ref_name }}
+          envsubst < .storm/workflow.yaml > .storm/workflow-temp.yaml
+          mv .storm/workflow-temp.yaml .storm/workflow.yaml
+
+      - name: Install storm on remote servers
+        run: storm agent install -i .storm/inventory.yaml -m prod
+
+      - name: Run storm workflow
+        run: storm agent run -i .storm/inventory.yaml .storm/workflow.yaml

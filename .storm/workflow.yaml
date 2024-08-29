@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://github.com/Overal-X/formatio.storm/raw/main/schema.workflow.json
+
+name: Deploy Golang API
+
+directory: /home/user/code/
+jobs:
+  - name: build
+    steps:
+      - name: Checkout code
+        directory: /home/user/
+        run: |
+          rm -rf /home/user/code/
+          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO} --branch ${GITHUB_REF} --single-branch /home/user/_temp_code
+          mv /home/user/_temp_code/ /home/user/code/
+
+      - name: Install dependencies
+        run: go mod tidy
+
+  - name: test
+    needs: build
+
+    steps:
+      - name: Run tests
+        run: go test -v ./...
+
+  - name: deploy
+    needs: test
+
+    steps:
+      - name: Build the application
+        run: go build -o main
+
+      - name: Copy systemd service to /etc/systemd/system
+        run: sudo cp go-api.service /etc/systemd/system
+
+      - name: Restart systemd service
+        run: sudo /bin/systemctl restart go-api || sudo /bin/systemctl start go-api

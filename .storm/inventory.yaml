@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=https://github.com/Overal-X/formatio.storm/raw/main/schema.inventory.json
+
+servers:
+  - name: ec2-18-212-174-242
+    host: ec2-18-212-174-242.compute-1.amazonaws.com
+    user: ubuntu
+    private-ssh-key: "./id_rsa"

@@ -1,0 +1,13 @@
+[Unit]
+Description=Golang API
+After=network.target
+
+[Service]
+User=user
+Group=sudo
+WorkingDirectory=/home/user/code
+ExecStart=./main
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
