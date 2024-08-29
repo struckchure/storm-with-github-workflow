@@ -3,9 +3,9 @@ Description=Golang API
 After=network.target
 
 [Service]
-User=user
+User=ubuntu
 Group=sudo
-WorkingDirectory=/home/user/code
+WorkingDirectory=/home/ubuntu/code
 ExecStart=./main
 Restart=always
 
