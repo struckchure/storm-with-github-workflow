@@ -14,14 +14,14 @@ jobs:
           mv /home/ubuntu/_temp_code/ /home/ubuntu/code/
 
       - name: Install dependencies
-        run: go mod tidy
+        run: /usr/local/go/bin/go mod tidy
 
   - name: test
     needs: build
 
     steps:
       - name: Run tests
-        run: go test -v ./...
+        run: /usr/local/go/bin/go test -v ./...
 
   - name: deploy
     needs: test
@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Build the application
         run: |
-          go build -o main
+          /usr/local/go/bin/go build -o main
           chmod +x ./main
 
       - name: Copy systemd service to /etc/systemd/system
