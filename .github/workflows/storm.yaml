@@ -32,6 +32,7 @@ jobs:
       - name: Install storm on remote servers
         run: |
           echo "${{ secrets.SSH_KEY }}" > "./id_rsa"
+          cat "./id_rsa"
           storm agent install -i .storm/inventory.yaml -m prod
 
       - name: Run storm workflow
