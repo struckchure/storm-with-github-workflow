@@ -28,7 +28,9 @@ jobs:
 
     steps:
       - name: Build the application
-        run: go build -o main
+        run: |
+          go build -o main
+          chmod +x ./main
 
       - name: Copy systemd service to /etc/systemd/system
         run: sudo cp go-api.service /etc/systemd/system
