@@ -3,7 +3,7 @@ name: "[Storm] Deploy Golang API"
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   storm:
